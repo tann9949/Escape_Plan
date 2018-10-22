@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Escape Plan</string>
+    <string name="escapeplan">EscapePlan</string>
+    <string name="play">Play</string>
+    <string name="option">Option</string>
+    <string name="title_activity_game">GameActivity</string>
+</resources>
