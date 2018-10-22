@@ -34,8 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             mSocket = IO.socket(urlAddress);
-        } catch (URISyntaxException e) {
-        }
+        } catch (URISyntaxException e) {}
 
         btnPlay = (Button) findViewById(R.id.btnPlay);
         btnOption = (Button) findViewById(R.id.btnOption);
