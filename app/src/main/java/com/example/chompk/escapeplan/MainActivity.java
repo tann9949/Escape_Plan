@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String message = "Request Finding Match";
                 mSocket.emit("req", message);
-                
+
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
                 MainActivity.this.startActivity(intent);
             }
