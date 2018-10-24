@@ -10,12 +10,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.chompk.escapeplan.listeners.OnSwipeTouchListener;
+import com.github.nkzawa.emitter.Emitter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class GameActivity extends AppCompatActivity {
 
     ImageView[][] blocks = new ImageView[5][5];
     Button btnSkip;
     Button btnSurrender;
     TextView timer;
+    TextView playerstaus;
+    View board;
+    String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +36,16 @@ public class GameActivity extends AppCompatActivity {
         btnSkip = (Button)findViewById(R.id.btnskip);
         btnSurrender = (Button)findViewById(R.id.btnsurrender);
         timer = (TextView)findViewById(R.id.timer);
+        playerstaus = (TextView)findViewById(R.id.playerstatus);
+        board = findViewById(R.id.board);
 
+        setBoardListening();
+        setOnSwipe();
+        setWaitStatus();
+
+        if(!MainActivity.mSocket.connected())
+            playerstaus.setText("Not connected to server");
+        MainActivity.mSocket.emit("req", "join");
 
     }
 
@@ -61,6 +80,118 @@ public class GameActivity extends AppCompatActivity {
         blocks[4][3] = (ImageView) findViewById(R.id.X);
         blocks[4][4] = (ImageView) findViewById(R.id.Y);
 
+    }
+
+    private void setBoardListening() {
+        MainActivity.mSocket.on("board", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                try {
+                    JSONObject messageJson = new JSONObject(args[0].toString());
+                    JSONArray warderIndex = messageJson.getJSONArray("warderindex");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // implement code to set block
+
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void setWaitStatus() {
+        MainActivity.mSocket.on("status", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                status = args[0].toString();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        playerstaus.setText(status);
+                    }
+                });
+            }
+        });
+    }
+
+    private void setOnSwipe() {
+        board.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
+            @Override
+            public void onSwipeBottom() {
+                super.onSwipeBottom();
+                MainActivity.mSocket.on("movedown", new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // send movedown to server
+
+                            }
+                        });
+                    }
+                });
+            }
+
+            @Override
+            public void onSwipeLeft() {
+                super.onSwipeLeft();
+                MainActivity.mSocket.on("moveleft", new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // send moveleft to server
+
+                            }
+                        });
+                    }
+                });
+            }
+
+            @Override
+            public void onSwipeRight() {
+                super.onSwipeRight();
+                MainActivity.mSocket.on("moveright", new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // send moveright to server
+
+                            }
+                        });
+                    }
+                });
+            }
+
+            @Override
+            public void onSwipeTop() {
+                super.onSwipeTop();
+                MainActivity.mSocket.on("moveup", new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // send moveup to server
+
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 
 }

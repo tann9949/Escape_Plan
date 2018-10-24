@@ -51,18 +51,15 @@ public class OptionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String ip = editip.getText().toString();
-                int port = Integer.parseInt(editport.getText().toString());
+                String port = editport.getText().toString();
                 Intent intent = new Intent(OptionActivity.this, MainActivity.class);
-                System.out.println(ip);
-                System.out.println(port);
-                ConnectionData.getInstance().setPort(port);
-                ConnectionData.getInstance().setIpAddress(ip);
-                System.out.println(ConnectionData.getInstance().getIpAddress());
-                System.out.println(ConnectionData.getInstance().getPort());
-                if(port == 0 && ip == null)
+                if (port.matches("") || ip.matches("")) {
                     Toast.makeText(getApplicationContext(), "Please fill in all of the spaces", Toast.LENGTH_LONG).show();
-                else
+                } else {
+                    ConnectionData.getInstance().setPort(Integer.parseInt(port));
+                    ConnectionData.getInstance().setIpAddress(ip);
                     OptionActivity.this.startActivity(intent);
+                }
             }
         });
     }

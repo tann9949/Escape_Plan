@@ -11,8 +11,8 @@ public class ConnectionData {
     }
 
     private ConnectionData() {
-        ipAddress = "localhost";
-        port = 6666;
+        ipAddress = "192.168.43.50";
+        port = 3000;
     }
 
     public String getIpAddress() {

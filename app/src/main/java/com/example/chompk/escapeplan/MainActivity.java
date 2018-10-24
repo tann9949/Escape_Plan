@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnPlay;
     private static String urlAddress;
 
-    private Socket mSocket;
+    static Socket mSocket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

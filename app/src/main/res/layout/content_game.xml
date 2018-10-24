@@ -27,6 +27,15 @@
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/playerstatus"
+        android:textSize="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:layout_marginHorizontal="40dp"/>
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,48 +43,49 @@
         android:layout_weight="9"
         android:weightSum="5"
         android:layout_gravity="center"
-        android:layout_marginVertical="20dp">
+        android:layout_marginVertical="20dp"
+        android:id="@+id/board">
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:weightSum="5"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:weightSum="5">
 
             <ImageView
                 android:id="@+id/A"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="10dp" />
 
             <ImageView
                 android:id="@+id/B"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="10dp" />
 
             <ImageView
                 android:id="@+id/C"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="10dp" />
 
             <ImageView
                 android:id="@+id/D"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="10dp" />
 
             <ImageView
                 android:id="@+id/E"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="10dp" />
 
         </TableRow>
 
