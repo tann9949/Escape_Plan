@@ -1,6 +1,7 @@
 package com.example.chompk.escapeplan;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.chompk.escapeplan.listeners.OnSwipeTouchListener;
 import com.github.nkzawa.emitter.Emitter;
@@ -42,6 +44,10 @@ public class GameActivity extends AppCompatActivity {
         setBoardListening();
         setOnSwipe();
         setWaitStatus();
+        setConnectionStatus();
+        setCharStatus();
+
+        setTurn();
 
         if(!MainActivity.mSocket.connected())
             playerstaus.setText("Not connected to server");
@@ -111,7 +117,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void setWaitStatus() {
-        MainActivity.mSocket.on("status", new Emitter.Listener() {
+        MainActivity.mSocket.on("waiting", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 status = args[0].toString();
@@ -119,6 +125,66 @@ public class GameActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         playerstaus.setText(status);
+                    }
+                });
+            }
+        });
+    }
+
+    private void setConnectionStatus() {
+        MainActivity.mSocket.on("connected", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Match found!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    private void setCharStatus() {
+        MainActivity.mSocket.on("connected", new Emitter.Listener() {
+            @Override
+            public void call(final Object... mess) {
+                runOnUiThread(new Runnable() {
+                    String role = mess[0].toString();
+                    @Override
+                    public void run() {
+                        if(role == "warder") {
+                            status = "You are warder!";
+                        } else {
+                            status = "You are prisoner!";
+                        }
+                        playerstaus.setText(status);
+                    }
+                });
+            }
+        });
+    }
+
+    private void setTurn() {
+        MainActivity.mSocket.on("turn", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                status = args[0].toString();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new CountDownTimer(10000, 10) {
+
+                            public void onTick(long millisUntilFinished) {
+                                int sec = (int) (millisUntilFinished/1000);
+                                int msec = (int) (millisUntilFinished - sec*1000)/10;
+                                timer.setText(sec+" : "+msec+" seconds remainding!");
+                            }
+
+                            public void onFinish() {
+                                timer.setText("Times up!");
+                            }
+                        }.start();
                     }
                 });
             }
