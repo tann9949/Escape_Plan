@@ -87,13 +87,20 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void call(Object... args) {
                 try {
-                    JSONObject messageJson = new JSONObject(args[0].toString());
-                    JSONArray warderIndex = messageJson.getJSONArray("warderindex");
+                    final JSONObject messageJson = new JSONObject(args[0].toString());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             // implement code to set block
-
+                            try {
+                                JSONArray prisonerIndex = messageJson.getJSONArray("prisonerindex");
+                                JSONArray warderIndex = messageJson.getJSONArray("warderindex");
+                                JSONArray tunnelIndex = messageJson.getJSONArray("tunnelindex");
+                                JSONArray obstaclesIndex = messageJson.getJSONArray("obstacleindex");
+                                System.out.println((int)prisonerIndex.get(0));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 } catch (JSONException e) {
