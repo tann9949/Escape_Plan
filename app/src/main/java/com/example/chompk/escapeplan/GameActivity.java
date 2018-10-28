@@ -1,9 +1,12 @@
 package com.example.chompk.escapeplan;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +35,11 @@ public class GameActivity extends AppCompatActivity {
     TextView playerstaus;
     TableLayout board;
     String status;
+
+    JSONArray prisonerIndex;
+    JSONArray wardenIndex;
+    JSONArray tunnelIndex;
+    JSONArray obstaclesIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,18 +125,22 @@ public class GameActivity extends AppCompatActivity {
         MainActivity.mSocket.on("board", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
+
                 try {
                     final JSONObject messageJson = new JSONObject(args[0].toString());
                     runOnUiThread(new Runnable() {
+                        @TargetApi(Build.VERSION_CODES.M)
+                        @RequiresApi(api = Build.VERSION_CODES.M)
                         @Override
                         public void run() {
                             // implement code to set block
                             try {
-                                JSONArray prisonerIndex = messageJson.getJSONArray("prisonerindex");
-                                JSONArray warderIndex = messageJson.getJSONArray("warderindex");
-                                JSONArray tunnelIndex = messageJson.getJSONArray("tunnelindex");
-                                JSONArray obstaclesIndex = messageJson.getJSONArray("obstacleindex");
+                                prisonerIndex = messageJson.getJSONArray("prisonerindex");
+                                wardenIndex = messageJson.getJSONArray("wardenindex");
+                                tunnelIndex = messageJson.getJSONArray("tunnelindex");
+                                obstaclesIndex = messageJson.getJSONArray("obstacleindex");
                                 System.out.println((int)prisonerIndex.get(0));
+                                blocks[(int) prisonerIndex.get(0)][(int) prisonerIndex.get(1)].setForeground(getDrawable(R.drawable.prisonericon));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -186,8 +198,8 @@ public class GameActivity extends AppCompatActivity {
                     String role = mess[0].toString();
                     @Override
                     public void run() {
-                        if(role.equals("warder")) {
-                            status = "You are warder!";
+                        if(role.equals("warden")) {
+                            status = "You are warden!";
                         } else if(role.equals("prisoner")) {
                             status = "You are prisoner!";
                         }
@@ -224,6 +236,7 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setOnSwipe() {
         board.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             @Override
