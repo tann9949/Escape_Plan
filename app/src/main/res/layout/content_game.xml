@@ -5,45 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".GameActivity"
-    android:weightSum="10">
+    android:weightSum="10"
+    tools:context=".GameActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
         android:text="Time remainding"
         android:textAlignment="center"
-        android:textSize="30dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp"/>
+        android:textSize="30dp" />
 
     <TextView
         android:id="@+id/timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="20dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:text="00 : 00 seconds remainding!"
+        android:textAlignment="center"
+        android:textSize="20dp" />
 
     <TextView
+        android:id="@+id/playerstatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/playerstatus"
-        android:textSize="20dp"
+        android:layout_marginHorizontal="40dp"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:layout_marginHorizontal="40dp"/>
+        android:textSize="20dp" />
 
     <TableLayout
+        android:id="@+id/board"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="50dp"
-        android:layout_weight="9"
-        android:weightSum="5"
         android:layout_gravity="center"
+        android:layout_marginHorizontal="50dp"
         android:layout_marginVertical="20dp"
-        android:id="@+id/board">
+        android:layout_weight="9"
+        android:weightSum="5">
 
         <TableRow
             android:layout_width="match_parent"
@@ -51,213 +52,407 @@
             android:layout_weight="1"
             android:weightSum="5">
 
-            <ImageView
-                android:id="@+id/A"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="10dp" />
+                android:background="@drawable/border">
 
-            <ImageView
-                android:id="@+id/B"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:padding="10dp" />
+                <ImageView
+                    android:id="@+id/A"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
 
-            <ImageView
-                android:id="@+id/C"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:padding="10dp" />
+            </LinearLayout>
 
-            <ImageView
-                android:id="@+id/D"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="10dp" />
+                android:background="@drawable/border">
 
-            <ImageView
-                android:id="@+id/E"
-                android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/B"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="10dp" />
+                android:background="@drawable/border">
+
+                <ImageView
+                    android:id="@+id/C"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border">
+
+                <ImageView
+                    android:id="@+id/D"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border">
+
+                <ImageView
+                    android:id="@+id/E"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+            </LinearLayout>
 
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:weightSum="5"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:weightSum="5">
 
-            <ImageView
-                android:id="@+id/F"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/border">
 
-            <ImageView
-                android:id="@+id/G"
+                <ImageView
+                    android:id="@+id/F"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/border">
 
-            <ImageView
-                android:id="@+id/H"
+                <ImageView
+                    android:id="@+id/G"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/border">
 
-            <ImageView
+                <ImageView
+                    android:id="@+id/H"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
 
-                android:id="@+id/I"
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/border">
 
-            <ImageView
-                android:id="@+id/J"
+                <ImageView
+
+                    android:id="@+id/I"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/border">
+
+                <ImageView
+                    android:id="@+id/J"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+
+            </LinearLayout>
 
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:weightSum="5"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:weightSum="5">
 
-            <ImageView
-                android:id="@+id/K"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/border">
 
-            <ImageView
-                android:id="@+id/L"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                <ImageView
+                    android:id="@+id/K"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
 
-            <ImageView
-                android:id="@+id/M"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+            </LinearLayout>
 
-            <ImageView
-                android:id="@+id/N"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/border">
 
-            <ImageView
-                android:id="@+id/O"
+                <ImageView
+                    android:id="@+id/L"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/border">
+
+                <ImageView
+                    android:id="@+id/M"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border">
+
+                <ImageView
+                    android:id="@+id/N"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border">
+
+                <ImageView
+                    android:id="@+id/O"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+
+            </LinearLayout>
 
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:weightSum="5"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:weightSum="5">
 
-            <ImageView
-                android:id="@+id/P"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/border">
 
-            <ImageView
-                android:id="@+id/Q"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                <ImageView
+                    android:id="@+id/P"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
 
-            <ImageView
-                android:id="@+id/R"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+            </LinearLayout>
 
-            <ImageView
-                android:id="@+id/S"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/border">
 
-            <ImageView
-                android:id="@+id/T"
+                <ImageView
+                    android:id="@+id/Q"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/border">
+
+                <ImageView
+                    android:id="@+id/R"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border">
+
+                <ImageView
+                    android:id="@+id/S"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border">
+
+                <ImageView
+                    android:id="@+id/T"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+
+            </LinearLayout>
 
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:weightSum="5"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:weightSum="5">
 
-            <ImageView
-                android:id="@+id/U"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/border">
 
-            <ImageView
-                android:id="@+id/V"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                <ImageView
+                    android:id="@+id/U"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
 
-            <ImageView
-                android:id="@+id/W"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+            </LinearLayout>
 
-            <ImageView
-                android:id="@+id/X"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/border">
 
-            <ImageView
-                android:id="@+id/Y"
+                <ImageView
+                    android:id="@+id/V"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/border">
+
+                <ImageView
+                    android:id="@+id/W"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border">
+
+                <ImageView
+                    android:id="@+id/X"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/border">
+
+                <ImageView
+                    android:id="@+id/Y"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp" />
+
+            </LinearLayout>
 
         </TableRow>
 
@@ -266,26 +461,25 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginVertical="20dp"
         android:gravity="center"
-        android:layout_marginVertical="20dp">
+        android:orientation="horizontal">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/btnsurrender"
-            android:text="surrender"
-            android:layout_marginHorizontal="20dp"/>
-
-        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:text="surrender" />
+
+        <Button
             android:id="@+id/btnskip"
-            android:text="skip"
-            android:layout_marginHorizontal="20dp"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:text="skip" />
 
     </LinearLayout>
-
 
 
 </LinearLayout>

@@ -1,5 +1,7 @@
 package com.example.chompk.escapeplan;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +30,7 @@ public class GameActivity extends AppCompatActivity {
     Button btnSurrender;
     TextView timer;
     TextView playerstaus;
-    View board;
+    TableLayout board;
     String status;
 
     @Override
@@ -40,6 +44,11 @@ public class GameActivity extends AppCompatActivity {
         timer = (TextView)findViewById(R.id.timer);
         playerstaus = (TextView)findViewById(R.id.playerstatus);
         board = findViewById(R.id.board);
+        board.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            board.setDividerDrawable(getDrawable(R.drawable.border));
+        }
 
         setBoardListening();
         setOnSwipe();
@@ -48,6 +57,22 @@ public class GameActivity extends AppCompatActivity {
         setCharStatus();
 
         setTurn();
+
+        btnSurrender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.mSocket.emit("req", "leave");
+                Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                GameActivity.this.startActivity(intent);
+            }
+        });
+
+        btnSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.mSocket.emit("move", "skip");
+            }
+        });
 
         if(!MainActivity.mSocket.connected())
             playerstaus.setText("Not connected to server");
@@ -139,6 +164,14 @@ public class GameActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(), "Match found!", Toast.LENGTH_SHORT).show();
+                        new CountDownTimer(5000, 10) {
+                            public void onTick(long millisUntilFinished) {
+                                int sec = (int) (millisUntilFinished/1000);
+                                timer.setText("Game starting in "+sec);
+                            }
+                            @Override
+                            public void onFinish() { }
+                        }.start();
                     }
                 });
             }
@@ -146,16 +179,16 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void setCharStatus() {
-        MainActivity.mSocket.on("connected", new Emitter.Listener() {
+        MainActivity.mSocket.on("char", new Emitter.Listener() {
             @Override
             public void call(final Object... mess) {
                 runOnUiThread(new Runnable() {
                     String role = mess[0].toString();
                     @Override
                     public void run() {
-                        if(role == "warder") {
+                        if(role.equals("warder")) {
                             status = "You are warder!";
-                        } else {
+                        } else if(role.equals("prisoner")) {
                             status = "You are prisoner!";
                         }
                         playerstaus.setText(status);
@@ -196,19 +229,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onSwipeBottom() {
                 super.onSwipeBottom();
-                MainActivity.mSocket.on("movedown", new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // send movedown to server
-
-                            }
-                        });
-                    }
-                });
+                MainActivity.mSocket.emit("move", "movedown");
             }
 
             @Override

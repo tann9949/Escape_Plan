@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         mSocket.connect();
 
+
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

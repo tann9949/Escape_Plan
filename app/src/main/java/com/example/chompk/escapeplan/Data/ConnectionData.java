@@ -11,7 +11,7 @@ public class ConnectionData {
     }
 
     private ConnectionData() {
-        ipAddress = "192.168.43.50";
+        ipAddress = "192.168.1.55";
         port = 3000;
     }
 
