@@ -235,55 +235,19 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onSwipeLeft() {
                 super.onSwipeLeft();
-                MainActivity.mSocket.on("moveleft", new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // send moveleft to server
-
-                            }
-                        });
-                    }
-                });
+                MainActivity.mSocket.emit("move", "moveleft");
             }
 
             @Override
             public void onSwipeRight() {
                 super.onSwipeRight();
-                MainActivity.mSocket.on("moveright", new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // send moveright to server
-
-                            }
-                        });
-                    }
-                });
+                MainActivity.mSocket.emit("move", "moveright");
             }
 
             @Override
             public void onSwipeTop() {
                 super.onSwipeTop();
-                MainActivity.mSocket.on("moveup", new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // send moveup to server
-
-                            }
-                        });
-                    }
-                });
+                MainActivity.mSocket.emit("move", "moveup");
             }
         });
     }

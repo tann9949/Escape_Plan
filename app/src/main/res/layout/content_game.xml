@@ -39,7 +39,7 @@
     <TableLayout
         android:id="@+id/board"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_marginHorizontal="50dp"
         android:layout_marginVertical="20dp"
@@ -48,7 +48,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:weightSum="5">
 
@@ -56,14 +56,19 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
+
 
                 <ImageView
                     android:id="@+id/A"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:padding="10dp" />
+                    android:padding="10dp"/>
+
 
             </LinearLayout>
 
@@ -71,40 +76,50 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:weightSum="1"
+                android:padding="10dp">
+
 
                 <ImageView
                     android:id="@+id/B"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:padding="10dp" />
+                    android:padding="10dp"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/C"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:padding="10dp" />
+                    android:padding="10dp"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/D"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -114,12 +129,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/E"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
             </LinearLayout>
@@ -128,7 +146,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:weightSum="5">
 
@@ -136,12 +154,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/F"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -151,12 +172,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/G"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -166,12 +190,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/H"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -181,13 +208,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
 
                     android:id="@+id/I"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -197,12 +227,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/J"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -212,7 +245,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:weightSum="5">
 
@@ -220,12 +253,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/K"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -235,12 +271,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/L"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
             </LinearLayout>
@@ -249,12 +288,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/M"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -264,12 +306,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/N"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -279,12 +324,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/O"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -294,7 +342,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:weightSum="5">
 
@@ -302,12 +350,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/P"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -317,12 +368,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/Q"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -332,12 +386,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/R"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -347,12 +404,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/S"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -362,12 +422,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/T"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -377,7 +440,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:weightSum="5">
 
@@ -385,12 +448,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/U"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -400,12 +466,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/V"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
             </LinearLayout>
@@ -414,12 +483,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/W"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
             </LinearLayout>
@@ -428,12 +500,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/X"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
@@ -443,12 +518,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
 
                 <ImageView
                     android:id="@+id/Y"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp" />
 
