@@ -35,11 +35,12 @@ public class GameActivity extends AppCompatActivity {
     TextView playerstaus;
     TableLayout board;
     String status;
+    String character;
 
     JSONArray prisonerIndex;
     JSONArray wardenIndex;
     JSONArray tunnelIndex;
-    JSONArray obstaclesIndex;
+    JSONArray[] obstaclesIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +126,6 @@ public class GameActivity extends AppCompatActivity {
         MainActivity.mSocket.on("board", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-
                 try {
                     final JSONObject messageJson = new JSONObject(args[0].toString());
                     runOnUiThread(new Runnable() {
@@ -133,14 +133,44 @@ public class GameActivity extends AppCompatActivity {
                         @RequiresApi(api = Build.VERSION_CODES.M)
                         @Override
                         public void run() {
+                            for(int j=0; j<5; j++) {
+                                for(int k=0; k<5; k++) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        blocks[j][k].setForeground(getDrawable(R.drawable.white));
+                                    }
+                                }
+                            }
                             // implement code to set block
                             try {
                                 prisonerIndex = messageJson.getJSONArray("prisonerindex");
                                 wardenIndex = messageJson.getJSONArray("wardenindex");
                                 tunnelIndex = messageJson.getJSONArray("tunnelindex");
-                                obstaclesIndex = messageJson.getJSONArray("obstacleindex");
-                                System.out.println((int)prisonerIndex.get(0));
-                                blocks[(int) prisonerIndex.get(0)][(int) prisonerIndex.get(1)].setForeground(getDrawable(R.drawable.prisonericon));
+                                obstaclesIndex = new JSONArray[messageJson.getJSONArray("obstacleindex").length()];
+                                int x[] = new int[5];
+                                int y[] = new int[5];
+                                for(int i=0; i<obstaclesIndex.length; i++) {
+                                    obstaclesIndex[i] = messageJson.getJSONArray("obstacleindex").getJSONArray(i);
+                                    x[i] = (int)obstaclesIndex[i].get(0);
+                                    y[i] = (int)obstaclesIndex[i].get(1);
+                                    if(x[i]>4) x[i] = 4;
+                                    if(y[i]>4) y[i] = 4;
+                                    blocks[x[i]][y[i]].setForeground(getDrawable(R.drawable.coneicon));
+                                }
+                                int prisonerx = (int)prisonerIndex.get(0);
+                                int prisonery = (int)prisonerIndex.get(1);
+                                if(prisonerx>4) prisonerx = 4;
+                                if(prisonery>4) prisonery = 4;
+                                blocks[prisonerx][prisonery].setForeground(getDrawable(R.drawable.prisonericon));
+                                int wardenx = (int)wardenIndex.get(0);
+                                int wardeny = (int)wardenIndex.get(1);
+                                if(wardenx>4) wardenx = 4;
+                                if(wardeny>4) wardeny = 4;
+                                blocks[wardenx][wardeny].setForeground(getDrawable(R.drawable.policeicon));
+                                int tunnelx = (int)tunnelIndex.get(0);
+                                int tunnely = (int)tunnelIndex.get(1);
+                                if(tunnelx>4) tunnelx = 4;
+                                if(tunnely>4) tunnely = 4;
+                                blocks[tunnelx][tunnely].setForeground(getDrawable(R.drawable.exiticon));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -186,6 +216,7 @@ public class GameActivity extends AppCompatActivity {
                         }.start();
                     }
                 });
+                MainActivity.mSocket.emit("ready", "ready");
             }
         });
     }
@@ -204,6 +235,7 @@ public class GameActivity extends AppCompatActivity {
                             status = "You are prisoner!";
                         }
                         playerstaus.setText(status);
+                        character = role;
                     }
                 });
             }
@@ -214,22 +246,27 @@ public class GameActivity extends AppCompatActivity {
         MainActivity.mSocket.on("turn", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                status = args[0].toString();
+                final String role = args[0].toString();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new CountDownTimer(10000, 10) {
+                        if(character.equals(role)) {
+                            new CountDownTimer(10000, 10) {
 
-                            public void onTick(long millisUntilFinished) {
-                                int sec = (int) (millisUntilFinished/1000);
-                                int msec = (int) (millisUntilFinished - sec*1000)/10;
-                                timer.setText(sec+" : "+msec+" seconds remainding!");
-                            }
+                                public void onTick(long millisUntilFinished) {
+                                    int sec = (int) (millisUntilFinished/1000);
+                                    int msec = (int) (millisUntilFinished - sec*1000)/10;
+                                    timer.setText(sec+" : "+msec+" seconds remainding!");
+                                }
 
-                            public void onFinish() {
-                                timer.setText("Times up!");
-                            }
-                        }.start();
+                                public void onFinish() {
+                                    timer.setText("Times up!");
+                                }
+                            }.start();
+                        } else {
+                            timer.setText("waiting for opponent...");
+                        }
+
                     }
                 });
             }
@@ -243,24 +280,28 @@ public class GameActivity extends AppCompatActivity {
             public void onSwipeBottom() {
                 super.onSwipeBottom();
                 MainActivity.mSocket.emit("move", "movedown");
+                System.out.println("moving down");
             }
 
             @Override
             public void onSwipeLeft() {
                 super.onSwipeLeft();
                 MainActivity.mSocket.emit("move", "moveleft");
+                System.out.println("moving left");
             }
 
             @Override
             public void onSwipeRight() {
                 super.onSwipeRight();
                 MainActivity.mSocket.emit("move", "moveright");
+                System.out.println("moving right");
             }
 
             @Override
             public void onSwipeTop() {
                 super.onSwipeTop();
                 MainActivity.mSocket.emit("move", "moveup");
+                System.out.println("moving up");
             }
         });
     }
