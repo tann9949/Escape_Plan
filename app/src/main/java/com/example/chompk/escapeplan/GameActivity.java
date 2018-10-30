@@ -32,6 +32,7 @@ public class GameActivity extends AppCompatActivity {
     Button btnSkip;
     Button btnSurrender;
     TextView timer;
+    boolean stopTimer = false;
     TextView playerstaus;
     TableLayout board;
     String status;
@@ -270,14 +271,17 @@ public class GameActivity extends AppCompatActivity {
                                     int sec = (int) (millisUntilFinished/1000);
                                     int msec = (int) (millisUntilFinished - sec*1000)/10;
                                     timer.setText(sec+" : "+msec+" seconds remainding!");
+                                    if(stopTimer)
+                                        timer.setText("opponent's turn");
                                 }
 
                                 public void onFinish() {
-                                    timer.setText("Times up!");
+                                    timer.setText("opponent's turn");
+                                    MainActivity.mSocket.emit("move", "skip");
                                 }
                             }.start();
                         } else {
-                            timer.setText("waiting for opponent...");
+                            timer.setText("opponent's turn");
                         }
 
                     }
@@ -292,32 +296,40 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onSwipeBottom() {
                 super.onSwipeBottom();
-                if(character.equals(turn))
+                if(character.equals(turn)) {
                     MainActivity.mSocket.emit("move", "movedown");
+                    stopTimer = true;
+                }
                 System.out.println("moving down");
             }
 
             @Override
             public void onSwipeLeft() {
                 super.onSwipeLeft();
-                if(character.equals(turn))
+                if(character.equals(turn)) {
                     MainActivity.mSocket.emit("move", "moveleft");
+                    stopTimer = true;
+                }
                 System.out.println("moving left");
             }
 
             @Override
             public void onSwipeRight() {
                 super.onSwipeRight();
-                if(character.equals(turn))
+                if(character.equals(turn)) {
                     MainActivity.mSocket.emit("move", "moveright");
+                    stopTimer = true;
+                }
                 System.out.println("moving right");
             }
 
             @Override
             public void onSwipeTop() {
                 super.onSwipeTop();
-                if(character.equals(turn))
+                if(character.equals(turn)) {
                     MainActivity.mSocket.emit("move", "moveup");
+                    stopTimer = true;
+                }
                 System.out.println("moving up");
             }
         });
