@@ -36,6 +36,7 @@ public class GameActivity extends AppCompatActivity {
     TableLayout board;
     String status;
     String character;
+    String turn;
 
     JSONArray prisonerIndex;
     JSONArray wardenIndex;
@@ -154,22 +155,34 @@ public class GameActivity extends AppCompatActivity {
                                     y[i] = (int)obstaclesIndex[i].get(1);
                                     if(x[i]>4) x[i] = 4;
                                     if(y[i]>4) y[i] = 4;
+                                    if(x[i]<0) x[i] = 0;
+                                    if(y[i]<0) y[i] = 0;
+                                    System.out.println("x["+i+"] = "+x[i]+" , y["+i+"] = "+y[i]);
                                     blocks[x[i]][y[i]].setForeground(getDrawable(R.drawable.coneicon));
                                 }
                                 int prisonerx = (int)prisonerIndex.get(0);
                                 int prisonery = (int)prisonerIndex.get(1);
                                 if(prisonerx>4) prisonerx = 4;
                                 if(prisonery>4) prisonery = 4;
+                                if(prisonerx<0) prisonerx = 0;
+                                if(prisonery<0) prisonery = 0;
+                                System.out.println("prisoner: ("+prisonerx+" , "+prisonery+")");
                                 blocks[prisonerx][prisonery].setForeground(getDrawable(R.drawable.prisonericon));
                                 int wardenx = (int)wardenIndex.get(0);
                                 int wardeny = (int)wardenIndex.get(1);
                                 if(wardenx>4) wardenx = 4;
                                 if(wardeny>4) wardeny = 4;
+                                if(wardenx<0) wardenx = 0;
+                                if(wardeny<0) wardeny = 0;
+                                System.out.println("warden: ("+wardenx+" , "+wardeny+")");
                                 blocks[wardenx][wardeny].setForeground(getDrawable(R.drawable.policeicon));
                                 int tunnelx = (int)tunnelIndex.get(0);
                                 int tunnely = (int)tunnelIndex.get(1);
                                 if(tunnelx>4) tunnelx = 4;
                                 if(tunnely>4) tunnely = 4;
+                                if(tunnelx<0) tunnelx = 0;
+                                if(tunnely<0) tunnely = 0;
+                                System.out.println("tunnel: ("+tunnelx+" , "+tunnely+")");
                                 blocks[tunnelx][tunnely].setForeground(getDrawable(R.drawable.exiticon));
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -250,9 +263,9 @@ public class GameActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        turn = role;
                         if(character.equals(role)) {
                             new CountDownTimer(10000, 10) {
-
                                 public void onTick(long millisUntilFinished) {
                                     int sec = (int) (millisUntilFinished/1000);
                                     int msec = (int) (millisUntilFinished - sec*1000)/10;
@@ -279,28 +292,32 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onSwipeBottom() {
                 super.onSwipeBottom();
-                MainActivity.mSocket.emit("move", "movedown");
+                if(character.equals(turn))
+                    MainActivity.mSocket.emit("move", "movedown");
                 System.out.println("moving down");
             }
 
             @Override
             public void onSwipeLeft() {
                 super.onSwipeLeft();
-                MainActivity.mSocket.emit("move", "moveleft");
+                if(character.equals(turn))
+                    MainActivity.mSocket.emit("move", "moveleft");
                 System.out.println("moving left");
             }
 
             @Override
             public void onSwipeRight() {
                 super.onSwipeRight();
-                MainActivity.mSocket.emit("move", "moveright");
+                if(character.equals(turn))
+                    MainActivity.mSocket.emit("move", "moveright");
                 System.out.println("moving right");
             }
 
             @Override
             public void onSwipeTop() {
                 super.onSwipeTop();
-                MainActivity.mSocket.emit("move", "moveup");
+                if(character.equals(turn))
+                    MainActivity.mSocket.emit("move", "moveup");
                 System.out.println("moving up");
             }
         });
