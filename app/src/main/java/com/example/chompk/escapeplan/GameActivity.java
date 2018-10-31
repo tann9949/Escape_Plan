@@ -237,12 +237,14 @@ public class GameActivity extends AppCompatActivity {
                                 timer.setText("Game starting in "+sec);
                             }
                             @Override
-                            public void onFinish() { }
+                            public void onFinish() {
+                                System.out.println("Emitting event: \"ready\", arg: \"ready to play\" (245)");
+                                MainActivity.mSocket.emit("ready", "ready to play");
+                            }
                         }.start();
                     }
                 });
-                System.out.println("Emitting event: \"ready\", arg: \"ready to play\" (245)");
-                MainActivity.mSocket.emit("ready", "ready to play");
+
             }
         });
     }
@@ -255,7 +257,7 @@ public class GameActivity extends AppCompatActivity {
                     String role = mess[0].toString();
                     @Override
                     public void run() {
-                        System.out.println("Received on event: \"char\", args: \"mess\"");
+                        System.out.println("Received on event: \"char\", args: \""+mess.toString()+"\"");
                         if(role.equals("warden")) {
                             status = "You are warden!";
                         } else if(role.equals("prisoner")) {
@@ -272,17 +274,18 @@ public class GameActivity extends AppCompatActivity {
     private void setTurn() {
         MainActivity.mSocket.on("turn", new Emitter.Listener() {
             @Override
-            public void call(Object... args) {
-                final String role = args[0].toString();
+            public void call(final Object... args) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        String role = args[0].toString();
+                        System.out.println("Received on event: \"start\"");
                         turn = role;
                         System.out.println("You are "+character);
                         System.out.println("current turn is "+turn+"'s turn");
                         System.out.println(character.equals(turn));
                         if(character.equals(turn)) {
-                            new CountDownTimer(10000, 10) {
+                            cdt = new CountDownTimer(10000, 10) {
                                 public void onTick(long millisUntilFinished) {
                                     int sec = (int) (millisUntilFinished/1000);
                                     int msec = (int) (millisUntilFinished - sec*1000)/10;
