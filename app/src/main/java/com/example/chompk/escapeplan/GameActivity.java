@@ -88,6 +88,8 @@ public class GameActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(character.equals(""))
+                    return;
                 System.out.println("Skip pressed");
                 System.out.println("Emitting event: \"move\", arg: \"skip\" (89)");
                 MainActivity.mSocket.emit("move", "skip");
@@ -141,6 +143,8 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void call(Object... args) {
                 try {
+                    if(cdt != null)
+                        cdt.cancel();
                     JSONObject messageJson = new JSONObject(args[0].toString());
                     prisonerIndex = messageJson.getJSONArray("prisonerindex");
                     wardenIndex = messageJson.getJSONArray("wardenindex");
@@ -168,6 +172,9 @@ public class GameActivity extends AppCompatActivity {
                                 int y[] = new int[5];
                                 for(int i=0; i<obstaclesIndex.length; i++) {
                                     System.out.println("Obstales length: "+obstaclesIndex.length);
+                                    for(int j=0; j<obstaclesIndex.length; j++) {
+                                        System.out.println("obs index "+j+" = "+obstaclesIndex[j]);
+                                    }
                                     x[i] = (int)obstaclesIndex[i].get(0);
                                     y[i] = (int)obstaclesIndex[i].get(1);
                                     if(x[i]>4) x[i] = 4;
@@ -327,7 +334,7 @@ public class GameActivity extends AppCompatActivity {
                     System.out.println("moving down");
                     System.out.println("Emitting event: \"move\", arg: \"movedown\" (316)");
                     MainActivity.mSocket.emit("move", "movedown");
-                    cdt.cancel();
+//                    cdt.cancel();
                 }
             }
 
@@ -338,7 +345,7 @@ public class GameActivity extends AppCompatActivity {
                     System.out.println("moving left");
                     System.out.println("Emitting event: \"move\", arg: \"moveleft\" (327)");
                     MainActivity.mSocket.emit("move", "moveleft");
-                    cdt.cancel();
+//                    cdt.cancel();
                 }
             }
 
@@ -349,7 +356,7 @@ public class GameActivity extends AppCompatActivity {
                     System.out.println("moving right");
                     System.out.println("Emitting event: \"move\", arg: \"moveright\" (338)");
                     MainActivity.mSocket.emit("move", "moveright");
-                    cdt.cancel();
+//                    cdt.cancel();
                 }
             }
 
@@ -360,7 +367,7 @@ public class GameActivity extends AppCompatActivity {
                     System.out.println("moving up");
                     System.out.println("Emitting event: \"move\", arg: \"moveup\" (349)");
                     MainActivity.mSocket.emit("move", "moveup");
-                    cdt.cancel();
+//                    cdt.cancel();
                 }
             }
         });
