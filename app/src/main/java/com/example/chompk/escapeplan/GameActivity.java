@@ -2,6 +2,7 @@ package com.example.chompk.escapeplan;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.os.CountDownTimer;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -38,6 +40,7 @@ public class GameActivity extends AppCompatActivity {
     String character;
     String turn;
     CountDownTimer cdt;
+    String role;
 
     JSONArray prisonerIndex;
     JSONArray wardenIndex;
@@ -66,7 +69,7 @@ public class GameActivity extends AppCompatActivity {
         setWaitStatus();
         setConnectionStatus();
         setCharStatus();
-
+        setOnEnd();
         setTurn();
 
         btnSurrender.setOnClickListener(new View.OnClickListener() {
@@ -77,16 +80,18 @@ public class GameActivity extends AppCompatActivity {
                 System.out.println("Emitting event: \"req\", arg: \"leave\" (75)");
                 Intent intent = new Intent(GameActivity.this, MainActivity.class);
                 GameActivity.this.startActivity(intent);
+                if(cdt != null)
+                    cdt.cancel();
             }
         });
 
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cdt.cancel();
                 System.out.println("Skip pressed");
                 System.out.println("Emitting event: \"move\", arg: \"skip\" (89)");
                 MainActivity.mSocket.emit("move", "skip");
+                cdt.cancel();
             }
         });
 
@@ -136,7 +141,14 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void call(Object... args) {
                 try {
-                    final JSONObject messageJson = new JSONObject(args[0].toString());
+                    JSONObject messageJson = new JSONObject(args[0].toString());
+                    prisonerIndex = messageJson.getJSONArray("prisonerindex");
+                    wardenIndex = messageJson.getJSONArray("wardenindex");
+                    tunnelIndex = messageJson.getJSONArray("tunnelindex");
+                    obstaclesIndex = new JSONArray[messageJson.getJSONArray("obstacleindex").length()];
+                    for(int i=0; i<obstaclesIndex.length; i++) {
+                        obstaclesIndex[i] = messageJson.getJSONArray("obstacleindex").getJSONArray(i);
+                    }
                     runOnUiThread(new Runnable() {
                         @TargetApi(Build.VERSION_CODES.M)
                         @RequiresApi(api = Build.VERSION_CODES.M)
@@ -152,14 +164,9 @@ public class GameActivity extends AppCompatActivity {
                             }
                             // implement code to set block
                             try {
-                                prisonerIndex = messageJson.getJSONArray("prisonerindex");
-                                wardenIndex = messageJson.getJSONArray("wardenindex");
-                                tunnelIndex = messageJson.getJSONArray("tunnelindex");
-                                obstaclesIndex = new JSONArray[messageJson.getJSONArray("obstacleindex").length()];
                                 int x[] = new int[5];
                                 int y[] = new int[5];
                                 for(int i=0; i<obstaclesIndex.length; i++) {
-                                    obstaclesIndex[i] = messageJson.getJSONArray("obstacleindex").getJSONArray(i);
                                     System.out.println("Obstales length: "+obstaclesIndex.length);
                                     x[i] = (int)obstaclesIndex[i].get(0);
                                     y[i] = (int)obstaclesIndex[i].get(1);
@@ -253,8 +260,8 @@ public class GameActivity extends AppCompatActivity {
         MainActivity.mSocket.on("char", new Emitter.Listener() {
             @Override
             public void call(final Object... mess) {
+                role = mess[0].toString();
                 runOnUiThread(new Runnable() {
-                    String role = mess[0].toString();
                     @Override
                     public void run() {
                         System.out.println("Received on event: \"char\", args: \""+mess.toString()+"\"");
@@ -355,6 +362,27 @@ public class GameActivity extends AppCompatActivity {
                     MainActivity.mSocket.emit("move", "moveup");
                     cdt.cancel();
                 }
+            }
+        });
+    }
+
+    private void setOnEnd() {
+        MainActivity.mSocket.on("winner", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("Received on event: \"start\", args: \""+args[0].toString()+"\"");
+                        String winner = args[0].toString();
+                        if(winner.equals("prisoner"))
+                            timer.setText("prisoner wins the round!");
+                        else
+                            timer.setText("warden wins the round!");
+                        cdt.cancel();
+                        character = "";
+                    }
+                });
             }
         });
     }
