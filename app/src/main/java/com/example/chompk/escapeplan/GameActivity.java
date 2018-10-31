@@ -32,7 +32,6 @@ public class GameActivity extends AppCompatActivity {
     Button btnSkip;
     Button btnSurrender;
     TextView timer;
-    boolean stopTimer = false;
     TextView playerstaus;
     TableLayout board;
     String status;
@@ -74,6 +73,8 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MainActivity.mSocket.emit("req", "leave");
+                System.out.println("Surrender pressed");
+                System.out.println("Emitting event: \"req\", arg: \"leave\" (75)");
                 Intent intent = new Intent(GameActivity.this, MainActivity.class);
                 GameActivity.this.startActivity(intent);
             }
@@ -83,6 +84,8 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cdt.cancel();
+                System.out.println("Skip pressed");
+                System.out.println("Emitting event: \"move\", arg: \"skip\" (89)");
                 MainActivity.mSocket.emit("move", "skip");
             }
         });
@@ -90,6 +93,8 @@ public class GameActivity extends AppCompatActivity {
         if(!MainActivity.mSocket.connected())
             playerstaus.setText("Not connected to server");
         MainActivity.mSocket.emit("req", "join");
+        System.out.println("Emitting event: \"req\", arg: \"join\" (95)");
+        System.out.println("Finished onCreate()");
 
     }
 
@@ -137,6 +142,7 @@ public class GameActivity extends AppCompatActivity {
                         @RequiresApi(api = Build.VERSION_CODES.M)
                         @Override
                         public void run() {
+                            System.out.print("Received on event: \"board\"");
                             for(int j=0; j<5; j++) {
                                 for(int k=0; k<5; k++) {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -154,7 +160,7 @@ public class GameActivity extends AppCompatActivity {
                                 int y[] = new int[5];
                                 for(int i=0; i<obstaclesIndex.length; i++) {
                                     obstaclesIndex[i] = messageJson.getJSONArray("obstacleindex").getJSONArray(i);
-                                    System.out.println(obstaclesIndex.length);
+                                    System.out.println("Obstales length: "+obstaclesIndex.length);
                                     x[i] = (int)obstaclesIndex[i].get(0);
                                     y[i] = (int)obstaclesIndex[i].get(1);
                                     if(x[i]>4) x[i] = 4;
@@ -204,6 +210,7 @@ public class GameActivity extends AppCompatActivity {
         MainActivity.mSocket.on("waiting", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
+                System.out.print("Received on event: \"waiting\"");
                 status = args[0].toString();
                 runOnUiThread(new Runnable() {
                     @Override
@@ -222,6 +229,7 @@ public class GameActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        System.out.print("Received on event: \"board\"");
                         Toast.makeText(getApplicationContext(), "Match found!", Toast.LENGTH_SHORT).show();
                         cdt = new CountDownTimer(5000, 10) {
                             public void onTick(long millisUntilFinished) {
@@ -233,6 +241,7 @@ public class GameActivity extends AppCompatActivity {
                         }.start();
                     }
                 });
+                System.out.println("Emitting event: \"ready\", arg: \"ready to play\" (245)");
                 MainActivity.mSocket.emit("ready", "ready to play");
             }
         });
@@ -246,6 +255,7 @@ public class GameActivity extends AppCompatActivity {
                     String role = mess[0].toString();
                     @Override
                     public void run() {
+                        System.out.print("Received on event: \"char\", args: \"mess\"");
                         if(role.equals("warden")) {
                             status = "You are warden!";
                         } else if(role.equals("prisoner")) {
@@ -268,25 +278,26 @@ public class GameActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         turn = role;
+                        System.out.println("You are "+character);
                         System.out.println("current turn is "+turn+"'s turn");
-                        if(character.equals(role)) {
+                        System.out.println(character.equals(turn));
+                        if(character.equals(turn)) {
                             new CountDownTimer(10000, 10) {
                                 public void onTick(long millisUntilFinished) {
                                     int sec = (int) (millisUntilFinished/1000);
                                     int msec = (int) (millisUntilFinished - sec*1000)/10;
                                     timer.setText(sec+" : "+msec+" seconds remainding!");
-                                    if(stopTimer) {
-                                        timer.setText("opponent turn");
-                                        cancel();
-                                    }
                                 }
 
                                 public void onFinish() {
                                     timer.setText("Time's up");
+                                    System.out.println("Time out");
+                                    System.out.println("Emitting event: \"move\", arg: \"skip\" (293)");
                                     MainActivity.mSocket.emit("move", "skip");
                                 }
                             }.start();
                         } else {
+                            System.out.println("character != turn")
                             timer.setText("opponent's turn");
                         }
 
@@ -303,44 +314,44 @@ public class GameActivity extends AppCompatActivity {
             public void onSwipeBottom() {
                 super.onSwipeBottom();
                 if (character.equals(turn)) {
+                    System.out.println("moving down");
+                    System.out.println("Emitting event: \"move\", arg: \"movedown\" (316)");
                     MainActivity.mSocket.emit("move", "movedown");
                     cdt.cancel();
-                    stopTimer = true;
                 }
-                System.out.println("moving down");
             }
 
             @Override
             public void onSwipeLeft() {
                 super.onSwipeLeft();
                 if (character.equals(turn)) {
+                    System.out.println("moving left");
+                    System.out.println("Emitting event: \"move\", arg: \"moveleft\" (327)");
                     MainActivity.mSocket.emit("move", "moveleft");
                     cdt.cancel();
-                    stopTimer = true;
                 }
-                System.out.println("moving left");
             }
 
             @Override
             public void onSwipeRight() {
                 super.onSwipeRight();
                 if (character.equals(turn)) {
+                    System.out.println("moving right");
+                    System.out.println("Emitting event: \"move\", arg: \"moveright\" (338)");
                     MainActivity.mSocket.emit("move", "moveright");
                     cdt.cancel();
-                    stopTimer = true;
                 }
-                System.out.println("moving right");
             }
 
             @Override
             public void onSwipeTop() {
                 super.onSwipeTop();
                 if (character.equals(turn)) {
+                    System.out.println("moving up");
+                    System.out.println("Emitting event: \"move\", arg: \"moveup\" (349)");
                     MainActivity.mSocket.emit("move", "moveup");
                     cdt.cancel();
-                    stopTimer = true;
                 }
-                System.out.println("moving up");
             }
         });
     }
