@@ -142,7 +142,7 @@ public class GameActivity extends AppCompatActivity {
                         @RequiresApi(api = Build.VERSION_CODES.M)
                         @Override
                         public void run() {
-                            System.out.print("Received on event: \"board\"");
+                            System.out.println("Received on event: \"board\"");
                             for(int j=0; j<5; j++) {
                                 for(int k=0; k<5; k++) {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -210,7 +210,7 @@ public class GameActivity extends AppCompatActivity {
         MainActivity.mSocket.on("waiting", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                System.out.print("Received on event: \"waiting\"");
+                System.out.println("Received on event: \"waiting\"");
                 status = args[0].toString();
                 runOnUiThread(new Runnable() {
                     @Override
@@ -229,7 +229,7 @@ public class GameActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.print("Received on event: \"board\"");
+                        System.out.println("Received on event: \"start\"");
                         Toast.makeText(getApplicationContext(), "Match found!", Toast.LENGTH_SHORT).show();
                         cdt = new CountDownTimer(5000, 10) {
                             public void onTick(long millisUntilFinished) {
@@ -255,7 +255,7 @@ public class GameActivity extends AppCompatActivity {
                     String role = mess[0].toString();
                     @Override
                     public void run() {
-                        System.out.print("Received on event: \"char\", args: \"mess\"");
+                        System.out.println("Received on event: \"char\", args: \"mess\"");
                         if(role.equals("warden")) {
                             status = "You are warden!";
                         } else if(role.equals("prisoner")) {
