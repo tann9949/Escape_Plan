@@ -297,7 +297,7 @@ public class GameActivity extends AppCompatActivity {
                                 }
                             }.start();
                         } else {
-                            System.out.println("character != turn")
+                            System.out.println("character != turn");
                             timer.setText("opponent's turn");
                         }
 
