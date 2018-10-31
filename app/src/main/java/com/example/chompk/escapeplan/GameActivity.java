@@ -38,6 +38,7 @@ public class GameActivity extends AppCompatActivity {
     String status;
     String character;
     String turn;
+    CountDownTimer cdt;
 
     JSONArray prisonerIndex;
     JSONArray wardenIndex;
@@ -81,6 +82,7 @@ public class GameActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cdt.cancel();
                 MainActivity.mSocket.emit("move", "skip");
             }
         });
@@ -152,6 +154,7 @@ public class GameActivity extends AppCompatActivity {
                                 int y[] = new int[5];
                                 for(int i=0; i<obstaclesIndex.length; i++) {
                                     obstaclesIndex[i] = messageJson.getJSONArray("obstacleindex").getJSONArray(i);
+                                    System.out.println(obstaclesIndex.length);
                                     x[i] = (int)obstaclesIndex[i].get(0);
                                     y[i] = (int)obstaclesIndex[i].get(1);
                                     if(x[i]>4) x[i] = 4;
@@ -213,14 +216,14 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void setConnectionStatus() {
-        MainActivity.mSocket.on("connected", new Emitter.Listener() {
+        MainActivity.mSocket.on("start", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(), "Match found!", Toast.LENGTH_SHORT).show();
-                        new CountDownTimer(5000, 10) {
+                        cdt = new CountDownTimer(5000, 10) {
                             public void onTick(long millisUntilFinished) {
                                 int sec = (int) (millisUntilFinished/1000);
                                 timer.setText("Game starting in "+sec);
@@ -230,7 +233,7 @@ public class GameActivity extends AppCompatActivity {
                         }.start();
                     }
                 });
-                MainActivity.mSocket.emit("ready", "ready");
+                MainActivity.mSocket.emit("ready", "ready to play");
             }
         });
     }
@@ -265,18 +268,21 @@ public class GameActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         turn = role;
+                        System.out.println("current turn is "+turn+"'s turn");
                         if(character.equals(role)) {
                             new CountDownTimer(10000, 10) {
                                 public void onTick(long millisUntilFinished) {
                                     int sec = (int) (millisUntilFinished/1000);
                                     int msec = (int) (millisUntilFinished - sec*1000)/10;
                                     timer.setText(sec+" : "+msec+" seconds remainding!");
-                                    if(stopTimer)
-                                        timer.setText("opponent's turn");
+                                    if(stopTimer) {
+                                        timer.setText("opponent turn");
+                                        cancel();
+                                    }
                                 }
 
                                 public void onFinish() {
-                                    timer.setText("opponent's turn");
+                                    timer.setText("Time's up");
                                     MainActivity.mSocket.emit("move", "skip");
                                 }
                             }.start();
@@ -296,8 +302,9 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onSwipeBottom() {
                 super.onSwipeBottom();
-                if(character.equals(turn)) {
+                if (character.equals(turn)) {
                     MainActivity.mSocket.emit("move", "movedown");
+                    cdt.cancel();
                     stopTimer = true;
                 }
                 System.out.println("moving down");
@@ -306,8 +313,9 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onSwipeLeft() {
                 super.onSwipeLeft();
-                if(character.equals(turn)) {
+                if (character.equals(turn)) {
                     MainActivity.mSocket.emit("move", "moveleft");
+                    cdt.cancel();
                     stopTimer = true;
                 }
                 System.out.println("moving left");
@@ -316,8 +324,9 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onSwipeRight() {
                 super.onSwipeRight();
-                if(character.equals(turn)) {
+                if (character.equals(turn)) {
                     MainActivity.mSocket.emit("move", "moveright");
+                    cdt.cancel();
                     stopTimer = true;
                 }
                 System.out.println("moving right");
@@ -326,8 +335,9 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onSwipeTop() {
                 super.onSwipeTop();
-                if(character.equals(turn)) {
+                if (character.equals(turn)) {
                     MainActivity.mSocket.emit("move", "moveup");
+                    cdt.cancel();
                     stopTimer = true;
                 }
                 System.out.println("moving up");
