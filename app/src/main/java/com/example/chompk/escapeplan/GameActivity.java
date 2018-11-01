@@ -53,10 +53,10 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.content_game);
 
         initializeImageView();
-        btnSkip = (Button)findViewById(R.id.btnskip);
-        btnSurrender = (Button)findViewById(R.id.btnsurrender);
-        timer = (TextView)findViewById(R.id.timer);
-        playerstaus = (TextView)findViewById(R.id.playerstatus);
+        btnSkip = (Button) findViewById(R.id.btnskip);
+        btnSurrender = (Button) findViewById(R.id.btnsurrender);
+        timer = (TextView) findViewById(R.id.timer);
+        playerstaus = (TextView) findViewById(R.id.playerstatus);
         board = findViewById(R.id.board);
         board.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
 
@@ -71,6 +71,8 @@ public class GameActivity extends AppCompatActivity {
         setCharStatus();
         setOnEnd();
         setTurn();
+        setOnInvalid();
+        setOnClear();
 
         btnSurrender.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +82,7 @@ public class GameActivity extends AppCompatActivity {
                 System.out.println("Emitting event: \"req\", arg: \"leave\" (75)");
                 Intent intent = new Intent(GameActivity.this, MainActivity.class);
                 GameActivity.this.startActivity(intent);
-                if(cdt != null)
+                if (cdt != null)
                     cdt.cancel();
             }
         });
@@ -88,7 +90,7 @@ public class GameActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(character.equals(""))
+                if (character.equals(""))
                     return;
                 System.out.println("Skip pressed");
                 System.out.println("Emitting event: \"move\", arg: \"skip\" (89)");
@@ -97,7 +99,7 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        if(!MainActivity.mSocket.connected())
+        if (!MainActivity.mSocket.connected())
             playerstaus.setText("Not connected to server");
         MainActivity.mSocket.emit("req", "join");
         System.out.println("Emitting event: \"req\", arg: \"join\" (95)");
@@ -143,14 +145,14 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void call(Object... args) {
                 try {
-                    if(cdt != null)
+                    if (cdt != null)
                         cdt.cancel();
                     JSONObject messageJson = new JSONObject(args[0].toString());
                     prisonerIndex = messageJson.getJSONArray("prisonerindex");
                     wardenIndex = messageJson.getJSONArray("wardenindex");
                     tunnelIndex = messageJson.getJSONArray("tunnelindex");
                     obstaclesIndex = new JSONArray[messageJson.getJSONArray("obstacleindex").length()];
-                    for(int i=0; i<obstaclesIndex.length; i++) {
+                    for (int i = 0; i < obstaclesIndex.length; i++) {
                         obstaclesIndex[i] = messageJson.getJSONArray("obstacleindex").getJSONArray(i);
                     }
                     runOnUiThread(new Runnable() {
@@ -159,8 +161,8 @@ public class GameActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             System.out.println("Received on event: \"board\"");
-                            for(int j=0; j<5; j++) {
-                                for(int k=0; k<5; k++) {
+                            for (int j = 0; j < 5; j++) {
+                                for (int k = 0; k < 5; k++) {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                         blocks[j][k].setForeground(getDrawable(R.drawable.white));
                                     }
@@ -170,43 +172,43 @@ public class GameActivity extends AppCompatActivity {
                             try {
                                 int x[] = new int[5];
                                 int y[] = new int[5];
-                                for(int i=0; i<obstaclesIndex.length; i++) {
-                                    System.out.println("Obstales length: "+obstaclesIndex.length);
-                                    for(int j=0; j<obstaclesIndex.length; j++) {
-                                        System.out.println("obs index "+j+" = "+obstaclesIndex[j]);
+                                for (int i = 0; i < obstaclesIndex.length; i++) {
+                                    System.out.println("Obstales length: " + obstaclesIndex.length);
+                                    for (int j = 0; j < obstaclesIndex.length; j++) {
+                                        System.out.println("obs index " + j + " = " + obstaclesIndex[j]);
                                     }
-                                    x[i] = (int)obstaclesIndex[i].get(0);
-                                    y[i] = (int)obstaclesIndex[i].get(1);
-                                    if(x[i]>4) x[i] = 4;
-                                    if(y[i]>4) y[i] = 4;
-                                    if(x[i]<0) x[i] = 0;
-                                    if(y[i]<0) y[i] = 0;
-                                    System.out.println("x["+i+"] = "+x[i]+" , y["+i+"] = "+y[i]);
+                                    x[i] = (int) obstaclesIndex[i].get(0);
+                                    y[i] = (int) obstaclesIndex[i].get(1);
+                                    if (x[i] > 4) x[i] = 4;
+                                    if (y[i] > 4) y[i] = 4;
+                                    if (x[i] < 0) x[i] = 0;
+                                    if (y[i] < 0) y[i] = 0;
+                                    System.out.println("x[" + i + "] = " + x[i] + " , y[" + i + "] = " + y[i]);
                                     blocks[x[i]][y[i]].setForeground(getDrawable(R.drawable.coneicon));
                                 }
-                                int prisonerx = (int)prisonerIndex.get(0);
-                                int prisonery = (int)prisonerIndex.get(1);
-                                if(prisonerx>4) prisonerx = 4;
-                                if(prisonery>4) prisonery = 4;
-                                if(prisonerx<0) prisonerx = 0;
-                                if(prisonery<0) prisonery = 0;
-                                System.out.println("prisoner: ("+prisonerx+" , "+prisonery+")");
+                                int prisonerx = (int) prisonerIndex.get(0);
+                                int prisonery = (int) prisonerIndex.get(1);
+                                if (prisonerx > 4) prisonerx = 4;
+                                if (prisonery > 4) prisonery = 4;
+                                if (prisonerx < 0) prisonerx = 0;
+                                if (prisonery < 0) prisonery = 0;
+                                System.out.println("prisoner: (" + prisonerx + " , " + prisonery + ")");
                                 blocks[prisonerx][prisonery].setForeground(getDrawable(R.drawable.prisonericon));
-                                int wardenx = (int)wardenIndex.get(0);
-                                int wardeny = (int)wardenIndex.get(1);
-                                if(wardenx>4) wardenx = 4;
-                                if(wardeny>4) wardeny = 4;
-                                if(wardenx<0) wardenx = 0;
-                                if(wardeny<0) wardeny = 0;
-                                System.out.println("warden: ("+wardenx+" , "+wardeny+")");
+                                int wardenx = (int) wardenIndex.get(0);
+                                int wardeny = (int) wardenIndex.get(1);
+                                if (wardenx > 4) wardenx = 4;
+                                if (wardeny > 4) wardeny = 4;
+                                if (wardenx < 0) wardenx = 0;
+                                if (wardeny < 0) wardeny = 0;
+                                System.out.println("warden: (" + wardenx + " , " + wardeny + ")");
                                 blocks[wardenx][wardeny].setForeground(getDrawable(R.drawable.policeicon));
-                                int tunnelx = (int)tunnelIndex.get(0);
-                                int tunnely = (int)tunnelIndex.get(1);
-                                if(tunnelx>4) tunnelx = 4;
-                                if(tunnely>4) tunnely = 4;
-                                if(tunnelx<0) tunnelx = 0;
-                                if(tunnely<0) tunnely = 0;
-                                System.out.println("tunnel: ("+tunnelx+" , "+tunnely+")");
+                                int tunnelx = (int) tunnelIndex.get(0);
+                                int tunnely = (int) tunnelIndex.get(1);
+                                if (tunnelx > 4) tunnelx = 4;
+                                if (tunnely > 4) tunnely = 4;
+                                if (tunnelx < 0) tunnelx = 0;
+                                if (tunnely < 0) tunnely = 0;
+                                System.out.println("tunnel: (" + tunnelx + " , " + tunnely + ")");
                                 blocks[tunnelx][tunnely].setForeground(getDrawable(R.drawable.exiticon));
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -229,6 +231,9 @@ public class GameActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (cdt != null)
+                            cdt.cancel();
+                        timer.setText("00:00 seconds remainding!");
                         playerstaus.setText(status);
                     }
                 });
@@ -247,9 +252,10 @@ public class GameActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Match found!", Toast.LENGTH_SHORT).show();
                         cdt = new CountDownTimer(5000, 10) {
                             public void onTick(long millisUntilFinished) {
-                                int sec = (int) (millisUntilFinished/1000);
-                                timer.setText("Game starting in "+sec);
+                                int sec = (int) (millisUntilFinished / 1000);
+                                timer.setText("Game starting in " + sec);
                             }
+
                             @Override
                             public void onFinish() {
                                 System.out.println("Emitting event: \"ready\", arg: \"ready to play\" (245)");
@@ -271,10 +277,10 @@ public class GameActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println("Received on event: \"char\", args: \""+mess.toString()+"\"");
-                        if(role.equals("warden")) {
+                        System.out.println("Received on event: \"char\", args: \"" + mess.toString() + "\"");
+                        if (role.equals("warden")) {
                             status = "You are warden!";
-                        } else if(role.equals("prisoner")) {
+                        } else if (role.equals("prisoner")) {
                             status = "You are prisoner!";
                         }
                         playerstaus.setText(status);
@@ -295,15 +301,15 @@ public class GameActivity extends AppCompatActivity {
                         String role = args[0].toString();
                         System.out.println("Received on event: \"start\"");
                         turn = role;
-                        System.out.println("You are "+character);
-                        System.out.println("current turn is "+turn+"'s turn");
+                        System.out.println("You are " + character);
+                        System.out.println("current turn is " + turn + "'s turn");
                         System.out.println(character.equals(turn));
-                        if(character.equals(turn)) {
+                        if (character.equals(turn)) {
                             cdt = new CountDownTimer(10000, 10) {
                                 public void onTick(long millisUntilFinished) {
-                                    int sec = (int) (millisUntilFinished/1000);
-                                    int msec = (int) (millisUntilFinished - sec*1000)/10;
-                                    timer.setText(sec+" : "+msec+" seconds remainding!");
+                                    int sec = (int) (millisUntilFinished / 1000);
+                                    int msec = (int) (millisUntilFinished - sec * 1000) / 10;
+                                    timer.setText(sec + " : " + msec + " seconds remainding!");
                                 }
 
                                 public void onFinish() {
@@ -380,14 +386,71 @@ public class GameActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println("Received on event: \"start\", args: \""+args[0].toString()+"\"");
-                        String winner = args[0].toString();
-                        if(winner.equals("prisoner"))
-                            timer.setText("prisoner wins the round!");
-                        else
-                            timer.setText("warden wins the round!");
                         cdt.cancel();
+                        System.out.println("Received on event: \"winner\", args: \"" + args[0].toString() + "\"");
+                        String winner = args[0].toString();
+                        if (winner.equals("prisoner")) {
+                            timer.setText("prisoner wins the round!");
+                        } else {
+                            timer.setText("warden wins the round!");
+                        }
                         character = "";
+
+                        AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
+                        alertDialog.setTitle("Game Ended");
+                        alertDialog.setMessage("Alert message to be shown");
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "EXIT",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        alertDialog.show();
+                    }
+                });
+            }
+        });
+    }
+
+    private void setOnInvalid() {
+        MainActivity.mSocket.on("err", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("Received on event: \"err\"");
+                        Toast.makeText(getApplicationContext(), "Invalid Move!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    private void setOnClear() {
+        MainActivity.mSocket.on("clear", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("Received on event: \"clear\"");
+                        for (int j = 0; j < 5; j++) {
+                            for (int k = 0; k < 5; k++) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    blocks[j][k].setForeground(getDrawable(R.drawable.white));
+                                }
+                            }
+                        }
+                        Toast.makeText(getApplicationContext(), "opponent leave the game", Toast.LENGTH_SHORT).show();
+
                     }
                 });
             }
