@@ -396,7 +396,7 @@ public class GameActivity extends AppCompatActivity {
                         System.out.println("Received on event: \"winner\", args: \"" + args[0].toString() + "\"");
                         try {
                             JSONObject messageJson = new JSONObject(args[0].toString());
-                            JSONArray role = messageJson.getJSONArray("role");
+                            JSONArray role = messageJson.getJSONArray("roles");
                             JSONArray points = messageJson.getJSONArray("point");
                             winner = messageJson.getString("winner");
                             player1 = new String[]{role.getString(0), points.getString(0)};
