@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         urlAddress = "http://" + ConnectionData.getInstance().getIpAddress() + ":" + ConnectionData.getInstance().getPort();
+        // http://192.168.1.55:3000
 
         try {
             mSocket = IO.socket(urlAddress);

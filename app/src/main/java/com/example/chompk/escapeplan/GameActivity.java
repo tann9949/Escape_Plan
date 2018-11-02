@@ -2,6 +2,7 @@ package com.example.chompk.escapeplan;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -396,23 +397,7 @@ public class GameActivity extends AppCompatActivity {
                         }
                         character = "";
 
-                        AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                        alertDialog.setTitle("Game Ended");
-                        alertDialog.setMessage("Alert message to be shown");
-                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "EXIT",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                        alertDialog.show();
+                        showDialog(GameActivity.this, "Game Ended", "Your score: "+"\nOpponent score: ");
                     }
                 });
             }
@@ -455,6 +440,27 @@ public class GameActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private void showDialog(Activity activity, String title, CharSequence message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+        if (title != null) builder.setTitle(title);
+
+        builder.setMessage(message);
+        builder.setPositiveButton("Rematch", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
 }
