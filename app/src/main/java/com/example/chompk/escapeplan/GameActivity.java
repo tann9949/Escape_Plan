@@ -397,7 +397,7 @@ public class GameActivity extends AppCompatActivity {
                         try {
                             JSONObject messageJson = new JSONObject(args[0].toString());
                             JSONArray role = messageJson.getJSONArray("roles");
-                            JSONArray points = messageJson.getJSONArray("point");
+                            JSONArray points = messageJson.getJSONArray("points");
                             winner = messageJson.getString("winner");
                             player1 = new String[]{role.getString(0), points.getString(0)};
                             player2 = new String[]{role.getString(1), points.getString(1)};
