@@ -249,6 +249,8 @@ public class GameActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if(cdt != null)
+                            cdt.cancel();
                         System.out.println("Received on event: \"start\"");
                         Toast.makeText(getApplicationContext(), "Match found!", Toast.LENGTH_SHORT).show();
                         cdt = new CountDownTimer(5000, 10) {
@@ -299,6 +301,8 @@ public class GameActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if(cdt != null)
+                            cdt.cancel();
                         String role = args[0].toString();
                         System.out.println("Received on event: \"start\"");
                         turn = role;
@@ -473,12 +477,14 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 MainActivity.mSocket.emit("rematch");
+                cdt.cancel();
             }
         });
         builder.setNegativeButton("Surrender", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 MainActivity.mSocket.emit("req", "leave");
+                cdt.cancel();
                 Intent intent = new Intent(GameActivity.this, MainActivity.class);
                 startActivity(intent);
             }
