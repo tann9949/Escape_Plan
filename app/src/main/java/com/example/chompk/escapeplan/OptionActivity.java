@@ -63,4 +63,11 @@ public class OptionActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(OptionActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 }

@@ -382,6 +382,11 @@ public class GameActivity extends AppCompatActivity {
 
     private void setOnEnd() {
         MainActivity.mSocket.on("winner", new Emitter.Listener() {
+            String[] player1;
+            String[] player2;
+            String winner;
+            String[] you;
+            String[] opponent;
             @Override
             public void call(final Object... args) {
                 runOnUiThread(new Runnable() {
@@ -389,7 +394,23 @@ public class GameActivity extends AppCompatActivity {
                     public void run() {
                         cdt.cancel();
                         System.out.println("Received on event: \"winner\", args: \"" + args[0].toString() + "\"");
-                        String winner = args[0].toString();
+                        try {
+                            JSONObject messageJson = new JSONObject(args[0].toString());
+                            JSONArray role = messageJson.getJSONArray("role");
+                            JSONArray points = messageJson.getJSONArray("point");
+                            winner = messageJson.getString("winner");
+                            player1 = new String[]{role.getString(0), points.getString(0)};
+                            player2 = new String[]{role.getString(1), points.getString(1)};
+                            if(character.equals(player1[0])) {
+                                you = player1;
+                                opponent = player2;
+                            } else if(character.equals(player2[0])) {
+                                you = player2;
+                                opponent = player1;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         if (winner.equals("prisoner")) {
                             timer.setText("prisoner wins the round!");
                         } else {
@@ -397,7 +418,7 @@ public class GameActivity extends AppCompatActivity {
                         }
                         character = "";
 
-                        showDialog(GameActivity.this, "Game Ended", "Your score: "+"\nOpponent score: ");
+                        showDialog(GameActivity.this, "Game Ended", "Your score: "+you[1]+"\nOpponent score: "+opponent[1]);
                     }
                 });
             }
@@ -451,16 +472,21 @@ public class GameActivity extends AppCompatActivity {
         builder.setPositiveButton("Rematch", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+                MainActivity.mSocket.emit("rematch");
             }
         });
         builder.setNegativeButton("", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+                MainActivity.mSocket.emit("surrender");
             }
         });
         builder.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(GameActivity.this, "Press surrender to go back", Toast.LENGTH_SHORT).show();
     }
 
 }
