@@ -418,7 +418,7 @@ public class GameActivity extends AppCompatActivity {
                         }
                         character = "";
 
-                        showDialog(GameActivity.this, "Game Ended", "Your score: "+you[1]+"\nOpponent score: "+opponent[1]);
+                        showDialog(GameActivity.this, "Game Ended", "Your score: "+you[1]+"\tOpponent score: "+opponent[1]);
                     }
                 });
             }
@@ -475,10 +475,12 @@ public class GameActivity extends AppCompatActivity {
                 MainActivity.mSocket.emit("rematch");
             }
         });
-        builder.setNegativeButton("", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Surrender", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                MainActivity.mSocket.emit("surrender");
+                MainActivity.mSocket.emit("req", "leave");
+                Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
         builder.show();
