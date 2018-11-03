@@ -4,53 +4,82 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-
-    <ImageView
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="30dp"
-        android:src="@mipmap/ic_launcher_round" />
+        android:layout_gravity="top">
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mute"
+            android:text="mute"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"/>
+    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginBottom="30dp"
-        android:text="@string/escapeplan"
-        android:textAlignment="center"
-        android:textSize="36sp"
-        tools:text="Escape Plan" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
 
 
-    <EditText
-        android:id="@+id/playernamefield"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="80dp"
-        android:layout_marginBottom="30dp"
-        android:hint="Your player name" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="30dp"
+                android:src="@mipmap/ic_launcher_round" />
 
-    <Button
-        android:id="@+id/btnPlay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginVertical="10dp"
-        android:text="@string/play"
-        tools:text="Play" />
 
-    <Button
-        android:id="@+id/btnOption"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="50dp"
-        android:text="@string/option"
-        tools:text="option" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginBottom="30dp"
+                android:text="@string/escapeplan"
+                android:textAlignment="center"
+                android:textSize="36sp"
+                tools:text="Escape Plan" />
+
+
+            <EditText
+                android:id="@+id/playernamefield"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="80dp"
+                android:layout_marginBottom="30dp"
+                android:hint="Your player name" />
+
+            <Button
+                android:id="@+id/btnPlay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginVertical="10dp"
+                android:text="@string/play"
+                tools:text="Play" />
+
+            <Button
+                android:id="@+id/btnOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="50dp"
+                android:text="@string/option"
+                tools:text="option" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -4,4 +4,6 @@
     <string name="play">Play</string>
     <string name="option">Option</string>
     <string name="title_activity_game">GameActivity</string>
+    <string name="mute">mute</string>
+    <string name="unmute">unmute</string>
 </resources>

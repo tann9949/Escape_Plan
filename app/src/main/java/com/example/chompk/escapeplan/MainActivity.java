@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     private Button btnPlay;
     private static String urlAddress;
     private EditText editName;
+    private Button btnMute;
+    private boolean muted;
+    Intent bgm;
 
     static Socket mSocket;
 
@@ -42,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
         btnPlay = (Button) findViewById(R.id.btnPlay);
         btnOption = (Button) findViewById(R.id.btnOption);
         editName = (EditText) findViewById(R.id.playernamefield);
+        btnMute = (Button) findViewById(R.id.mute);
+        bgm = new Intent(this, BackgroundSoundService.class);
+        startService(bgm);
 
         mSocket.connect();
 
@@ -73,12 +79,29 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(intent);
             }
         });
+
+        btnMute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(BackgroundSoundService.muted) {
+                    BackgroundSoundService.muted = false;
+                    BackgroundSoundService.player.start();
+                    Toast.makeText(MainActivity.this, "muted = true", Toast.LENGTH_SHORT).show();
+                    btnMute.setText(R.string.mute);
+                } else {
+                    BackgroundSoundService.muted = true;
+                    BackgroundSoundService.player.pause();
+                    btnMute.setText(R.string.unmute);
+                }
+            }
+        });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mSocket.disconnect();
+        stopService(bgm);
     }
 
 }
