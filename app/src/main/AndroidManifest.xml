@@ -18,12 +18,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".GameActivity"
             android:label="@string/title_activity_game"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
         <activity android:name=".OptionActivity" />
+
+        <service
+            android:name=".BackgroundSoundService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

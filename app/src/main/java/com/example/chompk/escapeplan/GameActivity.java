@@ -407,7 +407,8 @@ public class GameActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        cdt.cancel();
+                        if(cdt != null)
+                            cdt.cancel();
                         System.out.println("Received on event: \"winner\", args: \"" + args[0].toString() + "\"");
                         try {
                             JSONObject messageJson = new JSONObject(args[0].toString());
