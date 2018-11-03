@@ -4,42 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context=".MainActivity">
+
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher_round"
-        android:layout_marginVertical="30dp"/>
+        android:layout_marginVertical="30dp"
+        android:src="@mipmap/ic_launcher_round" />
 
 
     <TextView
         android:id="@+id/textView"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginBottom="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginBottom="30dp"
         android:text="@string/escapeplan"
         android:textAlignment="center"
         android:textSize="36sp"
         tools:text="Escape Plan" />
 
-    <Button
-        android:id="@+id/btnPlay"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginVertical="10dp"
+
+    <EditText
+        android:id="@+id/playernamefield"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="80dp"
+        android:layout_marginBottom="30dp"
+        android:hint="Your player name" />
+
+    <Button
+        android:id="@+id/btnPlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginVertical="10dp"
         android:text="@string/play"
         tools:text="Play" />
 
     <Button
         android:id="@+id/btnOption"
-        android:layout_marginHorizontal="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
         android:text="@string/option"
         tools:text="option" />
 

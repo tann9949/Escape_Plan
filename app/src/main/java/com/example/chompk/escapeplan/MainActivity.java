@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.chompk.escapeplan.Data.ConnectionData;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnOption;
     private Button btnPlay;
     private static String urlAddress;
+    private EditText editName;
 
     static Socket mSocket;
 
@@ -34,10 +36,12 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             mSocket = IO.socket(urlAddress);
-        } catch (URISyntaxException e) {}
+        } catch (URISyntaxException e) {
+        }
 
         btnPlay = (Button) findViewById(R.id.btnPlay);
         btnOption = (Button) findViewById(R.id.btnOption);
+        editName = (EditText) findViewById(R.id.playernamefield);
 
         mSocket.connect();
 
@@ -48,8 +52,16 @@ public class MainActivity extends AppCompatActivity {
                 String message = "Request Finding Match";
                 mSocket.emit("req", message);
 
-                Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                MainActivity.this.startActivity(intent);
+                System.out.println("text: "+editName.getText().toString());
+
+                if (editName.getText().toString().isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Please insert player name!", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                    intent.putExtra("playername", editName.getText().toString());
+                    MainActivity.this.startActivity(intent);
+                }
             }
         });
 

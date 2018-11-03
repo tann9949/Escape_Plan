@@ -42,6 +42,7 @@ public class GameActivity extends AppCompatActivity {
     String turn;
     CountDownTimer cdt;
     String role;
+    String playername;
 
     JSONArray prisonerIndex;
     JSONArray wardenIndex;
@@ -64,6 +65,8 @@ public class GameActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             board.setDividerDrawable(getDrawable(R.drawable.border));
         }
+
+        playername = getIntent().getExtras().getString("playername");
 
         setBoardListening();
         setOnSwipe();
@@ -104,6 +107,8 @@ public class GameActivity extends AppCompatActivity {
             playerstaus.setText("Not connected to server");
         MainActivity.mSocket.emit("req", "join");
         System.out.println("Emitting event: \"req\", arg: \"join\" (95)");
+        MainActivity.mSocket.emit("name", playername);
+        System.out.println("Emitting event: \"name\", arg: " + playername + " (95)");
         System.out.println("Finished onCreate()");
 
     }
@@ -249,7 +254,7 @@ public class GameActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(cdt != null)
+                        if (cdt != null)
                             cdt.cancel();
                         System.out.println("Received on event: \"start\"");
                         Toast.makeText(getApplicationContext(), "Match found!", Toast.LENGTH_SHORT).show();
@@ -301,7 +306,7 @@ public class GameActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(cdt != null)
+                        if (cdt != null)
                             cdt.cancel();
                         String role = args[0].toString();
                         System.out.println("Received on event: \"start\"");
@@ -391,6 +396,8 @@ public class GameActivity extends AppCompatActivity {
             String winner;
             String[] you;
             String[] opponent;
+            String[] name;
+
             @Override
             public void call(final Object... args) {
                 runOnUiThread(new Runnable() {
@@ -402,13 +409,15 @@ public class GameActivity extends AppCompatActivity {
                             JSONObject messageJson = new JSONObject(args[0].toString());
                             JSONArray role = messageJson.getJSONArray("roles");
                             JSONArray points = messageJson.getJSONArray("points");
+                            JSONArray names = messageJson.getJSONArray("name");
                             winner = messageJson.getString("winner");
+                            name = new String[]{names.getString(0), names.getString(1)};
                             player1 = new String[]{role.getString(0), points.getString(0)};
                             player2 = new String[]{role.getString(1), points.getString(1)};
-                            if(character.equals(player1[0])) {
+                            if (character.equals(player1[0])) {
                                 you = player1;
                                 opponent = player2;
-                            } else if(character.equals(player2[0])) {
+                            } else if (character.equals(player2[0])) {
                                 you = player2;
                                 opponent = player1;
                             }
@@ -422,7 +431,7 @@ public class GameActivity extends AppCompatActivity {
                         }
                         character = "";
 
-                        showDialog(GameActivity.this, "Game Ended", "Your score: "+you[1]+"\tOpponent score: "+opponent[1]);
+                        showDialog(GameActivity.this, "Game Ended", "Your score ("+name[0]+") : " + you[1] + "\nOpponent score ("+name[1]+") : " + opponent[1]);
                     }
                 });
             }
@@ -495,6 +504,23 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Toast.makeText(GameActivity.this, "Press surrender to go back", Toast.LENGTH_SHORT).show();
+    }
+
+    private void onFull() {
+        MainActivity.mSocket.on("full", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("Received on event: \"full\"");
+                        Toast.makeText(GameActivity.this, "Room is currently full, Please wait", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
     }
 
 }

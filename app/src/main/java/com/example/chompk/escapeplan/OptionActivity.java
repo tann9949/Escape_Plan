@@ -24,20 +24,20 @@ public class OptionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option);
 
-        btnsave = (Button)findViewById(R.id.btnsave);
-        btnback = (Button)findViewById(R.id.btnback);
+        btnsave = (Button) findViewById(R.id.btnsave);
+        btnback = (Button) findViewById(R.id.btnback);
         editip = (EditText) findViewById(R.id.ip);
         editport = (EditText) findViewById(R.id.port);
         textAddress = (TextView) findViewById(R.id.textAddress);
         String status;
 
         boolean statusok = (boolean) getIntent().getExtras().get("status");
-        if(statusok)
+        if (statusok)
             status = "CONNECTED";
         else
             status = "DISCONNECTED";
 
-        textAddress.setText("IP address: "+ConnectionData.getInstance().getIpAddress()+"\nPort: "+ConnectionData.getInstance().getPort()+"\nStatus: "+status);
+        textAddress.setText("IP address: " + ConnectionData.getInstance().getIpAddress() + "\nPort: " + ConnectionData.getInstance().getPort() + "\nStatus: " + status);
 
         btnback.setOnClickListener(new View.OnClickListener() {
             @Override
