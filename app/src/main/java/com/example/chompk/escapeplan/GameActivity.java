@@ -77,6 +77,7 @@ public class GameActivity extends AppCompatActivity {
         setTurn();
         setOnInvalid();
         setOnClear();
+        onFull();
 
         btnSurrender.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -313,6 +314,9 @@ public class GameActivity extends AppCompatActivity {
                         turn = role;
                         System.out.println("You are " + character);
                         System.out.println("current turn is " + turn + "'s turn");
+                        if(character == null) {
+                            return;
+                        }
                         System.out.println(character.equals(turn));
                         if (character.equals(turn)) {
                             cdt = new CountDownTimer(10000, 10) {
@@ -516,6 +520,7 @@ public class GameActivity extends AppCompatActivity {
                         System.out.println("Received on event: \"full\"");
                         Toast.makeText(GameActivity.this, "Room is currently full, Please wait", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                        MainActivity.mSocket.disconnect();
                         startActivity(intent);
                     }
                 });
