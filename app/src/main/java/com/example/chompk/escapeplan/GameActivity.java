@@ -95,7 +95,7 @@ public class GameActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (character.equals(""))
+                if (character == null || character.equals(""))
                     return;
                 System.out.println("Skip pressed");
                 System.out.println("Emitting event: \"move\", arg: \"skip\" (89)");
