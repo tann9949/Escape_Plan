@@ -114,6 +114,11 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(GameActivity.this, "Press surrender to go back", Toast.LENGTH_SHORT).show();
+    }
+
     private void initializeImageView() {
         blocks[0][0] = (ImageView) findViewById(R.id.A);
         blocks[0][1] = (ImageView) findViewById(R.id.B);
@@ -401,7 +406,7 @@ public class GameActivity extends AppCompatActivity {
             String[] you;
             String[] opponent;
             String[] name;
-
+            String endStatus;
             @Override
             public void call(final Object... args) {
                 runOnUiThread(new Runnable() {
@@ -417,14 +422,16 @@ public class GameActivity extends AppCompatActivity {
                             JSONArray names = messageJson.getJSONArray("name");
                             winner = messageJson.getString("winner");
                             name = new String[]{names.getString(0), names.getString(1)};
-                            player1 = new String[]{role.getString(0), points.getString(0)};
-                            player2 = new String[]{role.getString(1), points.getString(1)};
+                            player1 = new String[]{role.getString(0), points.getString(0), names.getString(0)};
+                            player2 = new String[]{role.getString(1), points.getString(1), names.getString(1)};
                             if (character.equals(player1[0])) {
                                 you = player1;
                                 opponent = player2;
+                                endStatus = "You lose!";
                             } else if (character.equals(player2[0])) {
                                 you = player2;
                                 opponent = player1;
+                                endStatus = "You win!";
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -436,7 +443,7 @@ public class GameActivity extends AppCompatActivity {
                         }
                         character = "";
 
-                        showDialog(GameActivity.this, "Game Ended", "Your score ("+name[0]+") : " + you[1] + "\nOpponent score ("+name[1]+") : " + opponent[1]);
+                        showDialog(GameActivity.this, endStatus, "Your score ("+you[2]+") : " + you[1] + "\nOpponent score ("+opponent[2]+") : " + opponent[1]);
                     }
                 });
             }
@@ -504,11 +511,6 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         builder.show();
-    }
-
-    @Override
-    public void onBackPressed() {
-        Toast.makeText(GameActivity.this, "Press surrender to go back", Toast.LENGTH_SHORT).show();
     }
 
     private void onFull() {
