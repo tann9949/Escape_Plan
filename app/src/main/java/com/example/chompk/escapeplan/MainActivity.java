@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 if(BackgroundSoundService.muted) {
                     BackgroundSoundService.muted = false;
                     BackgroundSoundService.player.start();
-                    Toast.makeText(MainActivity.this, "muted = true", Toast.LENGTH_SHORT).show();
                     btnMute.setText(R.string.mute);
                 } else {
                     BackgroundSoundService.muted = true;
