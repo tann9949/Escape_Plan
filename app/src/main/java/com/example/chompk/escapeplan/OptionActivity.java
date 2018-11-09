@@ -1,6 +1,7 @@
 package com.example.chompk.escapeplan;
 
 import android.content.Intent;
+import android.graphics.Path;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.chompk.escapeplan.Data.ConnectionData;
+import com.github.nkzawa.emitter.Emitter;
 
 public class OptionActivity extends AppCompatActivity {
 
@@ -62,6 +64,8 @@ public class OptionActivity extends AppCompatActivity {
                 }
             }
         });
+
+        onBroadcast();
     }
 
     @Override
@@ -69,5 +73,20 @@ public class OptionActivity extends AppCompatActivity {
         super.onBackPressed();
         Intent intent = new Intent(OptionActivity.this, MainActivity.class);
         startActivity(intent);
+    }
+
+    private void onBroadcast() {
+        MainActivity.mSocket.on("broadcast", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                final String serverMess = args[0].toString();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(OptionActivity.this, "Boardcast from server:\n"+serverMess, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 }

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.chompk.escapeplan.Data.ConnectionData;
+import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         startService(bgm);
 
         mSocket.connect();
+
 
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        onBroadcast();
     }
 
     @Override
@@ -101,6 +104,23 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         mSocket.disconnect();
         stopService(bgm);
+    }
+
+    private void onBroadcast() {
+        MainActivity.mSocket.on("broadcast", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                final String serverMess = args[0].toString();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "Boardcast from server:\n"+serverMess, Toast.LENGTH_SHORT).show();
+                        System.out.println("broadcast being called");
+                        System.out.println("messege is: "+serverMess);
+                    }
+                });
+            }
+        });
     }
 
 }

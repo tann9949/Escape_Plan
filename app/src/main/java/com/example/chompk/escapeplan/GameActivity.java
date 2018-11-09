@@ -78,6 +78,7 @@ public class GameActivity extends AppCompatActivity {
         setOnInvalid();
         setOnClear();
         onFull();
+        onBroadcast();
 
         btnSurrender.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -525,6 +526,21 @@ public class GameActivity extends AppCompatActivity {
                         Intent intent = new Intent(GameActivity.this, MainActivity.class);
                         MainActivity.mSocket.disconnect();
                         startActivity(intent);
+                    }
+                });
+            }
+        });
+    }
+
+    private void onBroadcast() {
+        MainActivity.mSocket.on("broadcast", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                final String serverMess = args[0].toString();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(GameActivity.this, "Boardcast from server:\n"+serverMess, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
