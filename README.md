@@ -19,5 +19,5 @@ To explore the backend, the link is below.
 ## Once both application is installed process the following instructions:
 1. Open Escape_Plan folder in Android Studio.
 2. Press Run.
-3. Select any virtual device (__note that only API 27 or lower is supported__ <span style="color:red">DONT SELECT API 28 FOR VIRTUAL DEVICE</span>).
+3. Select any virtual device (__note that only API 27 or lower is supported__ **_DONT SELECT API 28 FOR VIRTUAL DEVICE_**).
 4. Enjoy!
